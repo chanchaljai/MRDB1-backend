@@ -42,8 +42,13 @@ export const login = async (req, res) => {
     }
     // create token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    // add token to cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    })
     // send user
-    res.status(200).json({user, token});
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
