@@ -8,7 +8,7 @@ import adminRoute from "./routes/adminRoute.js";
 dotenv.config();
 connectDB();
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT || 5000;

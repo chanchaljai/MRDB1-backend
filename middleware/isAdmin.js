@@ -15,7 +15,7 @@ const isAdmin = async (req, res, next) => {
       return res.status(403).json({ message: "you are not admin" });
     }
     next();
-  } catch {
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };

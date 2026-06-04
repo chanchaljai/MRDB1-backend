@@ -8,7 +8,7 @@ export const register = async (req, res) => {
     // check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
     // hash password
     const salt = await bcrypt.genSalt(10);
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       role,
     });
-    res.status(201).json(user);
+    res.status(201).json({user, message: "User created successfully"});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -46,9 +46,12 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false
+
     })
     // send user
-    res.status(200).json(user);
+    res.status(200).json({user, message: "Login successful",role: user.role});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
