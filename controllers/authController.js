@@ -20,7 +20,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       role,
     });
-    res.status(201).json({user, message: "User created successfully"});
+    res.status(201).json({ user, message: "User created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -46,12 +46,13 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      sameSite: "lax",
-      secure: false
-
-    })
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
     // send user
-    res.status(200).json({user, message: "Login successful",role: user.role});
+    res
+      .status(200)
+      .json({ user, message: "Login successful", role: user.role });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -65,4 +66,4 @@ export const logout = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};  
+};
