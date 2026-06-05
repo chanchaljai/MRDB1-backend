@@ -46,8 +46,8 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: none,  // deployent time none local lax
+      secure: true, // deployment time true local false
     });
     // send user
     res
