@@ -14,7 +14,7 @@ const app = express();
 
 // ✅ FIX 1: CORS (production safe)
 app.use(cors({
-  origin:  "http://localhost:5173",
+  origin:  process.env.CLIENT_URL,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
 }));
