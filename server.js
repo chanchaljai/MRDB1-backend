@@ -12,9 +12,14 @@ connectDB();
 
 const app = express();
 
+const allowedOrigin = [
+  "http://localhost:5173",
+  process.env.CLIENT_URL
+];
+
 // ✅ FIX 1: CORS (production safe)
 app.use(cors({
-  origin:  process.env.CLIENT_URL,
+  origin:  allowedOrigin,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
 }));
