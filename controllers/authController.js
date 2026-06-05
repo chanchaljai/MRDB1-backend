@@ -43,17 +43,18 @@ export const login = async (req, res) => {
     // create token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     // add token to cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      sameSite: none,  // deployent time none local lax
-      secure: true, // deployment time true local false
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    //   sameSite: "lax", // deployent time "none" local "lax"
+    //   secure: false, // deployment time true local false
+    // });
     // send user
     res
       .status(200)
       .json({ user, message: "Login successful", role: user.role });
   } catch (error) {
+     console.error("LOGIN ERROR:", error);
     res.status(500).json({ error: error.message });
   }
 };
