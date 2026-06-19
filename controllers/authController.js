@@ -20,7 +20,9 @@ export const register = async (req, res) => {
       password: hashedPassword,
       role,
     });
-    res.status(201).json({ user, message: "User created successfully" });
+    // create token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res.status(201).json({ user, message: "User created successfully", token, role: user.role });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
